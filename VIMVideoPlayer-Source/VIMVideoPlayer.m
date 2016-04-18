@@ -676,6 +676,11 @@ static void *VideoPlayer_PlayerItemLoadedTimeRangesContext = &VideoPlayer_Player
 {
     if (context == VideoPlayer_PlayerRateChangedContext)
     {
+        if ([self.delegate respondsToSelector:@selector(videoPlayer:rateDidChange:)]) {
+            float rate = [[change objectForKey:NSKeyValueChangeNewKey] floatValue];
+            [self.delegate videoPlayer:self rateDidChange:rate];
+        }
+        
         if (self.isScrubbing == NO && self.isPlaying && self.player.rate == 0.0f)
         {
             // TODO: Show loading indicator
